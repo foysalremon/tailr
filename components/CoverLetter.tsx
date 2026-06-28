@@ -21,9 +21,13 @@ export default function CoverLetter({ coverLetter }: CoverLetterProps) {
   };
 
   return (
-    <section className="rounded-2xl border border-line bg-surface overflow-hidden">
+    <section
+      className="rounded-2xl border border-line bg-surface overflow-hidden"
+      aria-labelledby="cover-letter-heading"
+    >
       <div className="px-6 py-4 border-b border-line flex items-center justify-between gap-4">
         <h2
+          id="cover-letter-heading"
           className="text-sm font-semibold text-ink"
           style={{ fontFamily: "var(--font-display)" }}
         >

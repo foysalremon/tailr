@@ -1,23 +1,60 @@
+"use client";
+
+import { useState } from "react";
 import type { TailoredOutput } from "@/lib/schema";
 
 interface ResumeChangesProps {
   changes: TailoredOutput["resumeChanges"];
 }
 
+function assembleForClipboard(changes: TailoredOutput["resumeChanges"]): string {
+  return changes
+    .map((c) => `${c.section}\n${"─".repeat(c.section.length)}\n${c.revised}`)
+    .join("\n\n");
+}
+
 export default function ResumeChanges({ changes }: ResumeChangesProps) {
+  const [copiedAll, setCopiedAll] = useState(false);
+
+  const handleCopyAll = async () => {
+    try {
+      await navigator.clipboard.writeText(assembleForClipboard(changes));
+      setCopiedAll(true);
+      setTimeout(() => setCopiedAll(false), 2000);
+    } catch {
+      // Clipboard API unavailable — fail silently
+    }
+  };
+
   return (
-    <section className="rounded-2xl border border-line bg-surface overflow-hidden">
-      <div className="px-6 py-4 border-b border-line flex items-baseline gap-2">
-        <h2
-          className="text-sm font-semibold text-ink"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
-          Resume Changes
-        </h2>
+    <section
+      className="rounded-2xl border border-line bg-surface overflow-hidden"
+      aria-labelledby="resume-changes-heading"
+    >
+      <div className="px-6 py-4 border-b border-line flex items-center justify-between gap-4">
+        <div className="flex items-baseline gap-2">
+          <h2
+            id="resume-changes-heading"
+            className="text-sm font-semibold text-ink"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Resume Changes
+          </h2>
+          {changes.length > 0 && (
+            <span className="text-xs text-muted">
+              {changes.length} suggestion{changes.length !== 1 ? "s" : ""}
+            </span>
+          )}
+        </div>
+
         {changes.length > 0 && (
-          <span className="text-xs text-muted">
-            {changes.length} suggestion{changes.length !== 1 ? "s" : ""}
-          </span>
+          <button
+            onClick={handleCopyAll}
+            aria-label={copiedAll ? "All sections copied" : "Copy all revised sections"}
+            className="text-xs font-medium px-3 py-1.5 rounded-lg border border-line text-muted hover:text-ink hover:bg-canvas transition-colors focus:outline-none focus:ring-2 focus:ring-accent/30 shrink-0 cursor-pointer"
+          >
+            {copiedAll ? "All copied!" : "Copy all"}
+          </button>
         )}
       </div>
 
@@ -31,12 +68,10 @@ export default function ResumeChanges({ changes }: ResumeChangesProps) {
         <ul className="divide-y divide-line">
           {changes.map((change, idx) => (
             <li key={idx} className="px-6 py-6">
-              {/* Section label */}
               <p className="text-[0.7rem] font-semibold uppercase tracking-widest text-muted mb-5">
                 {change.section}
               </p>
 
-              {/* Original → Revised */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-5">
                 <div className="flex flex-col gap-1.5">
                   <p className="text-[0.7rem] font-medium uppercase tracking-wider text-muted">

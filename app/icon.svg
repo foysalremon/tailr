@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="7" fill="#0D1117"/>
+  <!-- Needle: rounded head at top, tapers to a sharp point at bottom -->
+  <path d="M12 11 A4 6 0 0 1 20 11 L17 25 L16 28.5 L15 25 Z" fill="white"/>
+  <!-- Eye of needle: oval cutout in the head -->
+  <ellipse cx="16" cy="8.5" rx="1.5" ry="2.5" fill="#0D1117"/>
+</svg>

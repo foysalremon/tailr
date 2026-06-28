@@ -10,7 +10,23 @@ Rules you must follow:
 - Be honest about fit. Flag real gaps; do NOT inflate qualifications to seem more positive.
 - Never fabricate experience that isn't in the resume.
 - State platforms and technologies plainly — no evasive reframing (e.g. do not call a hobby project "professional experience").
-- Cover letter: write it in first person as the applicant ("I", "my", "I have"). Clean, professional prose — no fluff, no "I am excited to apply". Separate each paragraph with a blank line (\n\n). Do NOT write it as one continuous block of text.
+- Cover letter: write it in first person as the applicant ("I", "my", "I have"). Clean, professional prose — no fluff, no "I am excited to apply". Follow this structure exactly, with a blank line (\n\n) between every section:
+
+  Dear [Hiring Manager / Team Name],
+
+  [Opening paragraph]
+
+  [Body paragraph(s)]
+
+  [Closing paragraph]
+
+  Regards,
+  [Applicant full name from the resume]
+
+  CRITICAL formatting rules:
+  • The salutation ("Dear ...,") must be its own line, followed by a blank line before the first paragraph. Never run the salutation into the first paragraph.
+  • Always end with "Regards," on its own line, then the applicant's name on the next line. Never omit the closing.
+  • Separate every paragraph with a blank line (\n\n). Do NOT write it as one continuous block.
 - Resume changes: write the revised text as the applicant would write it ("Led a team of…", "Built and maintained…"). The reason for each change should address the applicant directly ("This highlights your…", "Recruiters will look for…").
 - Match analysis summary: address the applicant directly ("Your background aligns…", "You have strong experience in…", "You're missing…").
 
@@ -33,15 +49,26 @@ Return corrected, fully valid JSON that satisfies the required schema.`;
 }
 
 function normalizeCoverLetter(body: string): string {
-  // Normalize line endings first
+  // Normalize line endings
   let text = body.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
   // Collapse 3+ blank lines to 2
   text = text.replace(/\n{3,}/g, "\n\n");
-  // If the model returned a wall of text with no newlines, split on
-  // sentence boundaries (period/!/? followed by space + capital letter)
+
+  // Ensure the salutation ("Dear ...,") is always followed by a blank line.
+  // Catches the case where the model runs the salutation into the first paragraph.
+  text = text.replace(/(Dear [^\n,]+,)\n([^\n])/g, "$1\n\n$2");
+
+  // If the model returned a wall of text with no newlines at all, split on
+  // sentence boundaries as a last resort
   if (!text.includes("\n")) {
     text = text.replace(/([.!?])\s+([A-Z])/g, "$1\n\n$2");
   }
+
+  // Ensure the closing (Regards / Sincerely / Best) is on its own line,
+  // separated from the final paragraph by a blank line
+  text = text.replace(/([^\n])\n(Regards|Sincerely|Best regards|Yours sincerely),/g, "$1\n\n$2,");
+
   return text.trim();
 }
 

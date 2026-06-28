@@ -2,8 +2,9 @@
 
 AI-powered resume and cover letter tailor — paste your resume and a job description, get a structured fit analysis, a tailored cover letter, and specific resume edits with the reasoning behind each one.
 
-<!-- Add demo GIF here -->
-<!-- Live demo: https://your-vercel-url.vercel.app -->
+![Tailr demo](./docs/demo.gif)
+
+**Live demo:** [tailr-delta.vercel.app](https://tailr-delta.vercel.app)
 
 ---
 

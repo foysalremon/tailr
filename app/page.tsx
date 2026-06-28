@@ -1,10 +1,5 @@
+import TailorApp from "@/components/TailorApp";
+
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold tracking-tight">Tailr</h1>
-      <p className="mt-3 text-lg text-gray-500">
-        Your resume, tailored to every job.
-      </p>
-    </main>
-  );
+  return <TailorApp />;
 }

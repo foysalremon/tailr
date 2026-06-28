@@ -1,1 +1,55 @@
 @import "tailwindcss";
+
+/*
+  Palette:
+  #F4F5F7  canvas  — cool near-white, main page bg
+  #FFFFFF  surface — cards and panels
+  #DDE1E9  line    — borders and dividers
+  #0D1117  ink     — primary text
+  #5C6680  muted   — secondary text and labels
+  #5B5BD6  accent  — indigo-violet, the one deliberate character choice
+
+  Type:
+  --font-display  Jost — geometric sans, closest free match to Century Gothic
+  --font-body     Inter         — neutral, legible body copy
+*/
+
+@theme {
+  --color-canvas: #F4F5F7;
+  --color-surface: #FFFFFF;
+  --color-line: #DDE1E9;
+  --color-ink: #0D1117;
+  --color-muted: #5C6680;
+  --color-accent: #5B5BD6;
+  --color-accent-pale: #EDEDFB;
+  --color-accent-dark: #4545B0;
+
+  --animate-fade-up: fade-up 0.4s ease forwards;
+  --animate-message-in: message-in 0.25s ease forwards;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
